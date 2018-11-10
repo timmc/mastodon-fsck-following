@@ -57,18 +57,14 @@ def get_all_following(cnf):
 
 def fsck_account(cnf, acct):
     """Check over a followed account (dict) and optionally repair it."""
-    sys.stdout.write('.') # for activity indicator
-    sys.stdout.flush() # for activity indicator
     full = cnf.api.account(acct) # full version of account object has 'moved'
     moved = full.get('moved')
     if moved:
-        print('') # for activity indicator
         print('Account %s has moved to %s' % (full.acct, moved.acct))
 
 def run(cnf):
     for acct in get_all_following(cnf):
         fsck_account(cnf, acct)
-    print('') # for activity indicator
 
 def configure(args):
     """Given command line args, produce a Config object."""
