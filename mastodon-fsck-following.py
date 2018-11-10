@@ -55,16 +55,23 @@ def get_all_following(cnf):
         page = cnf.api.fetch_next(page)
     return ret
 
-def fsck_account(cnf, acct):
+def fsck_account(cnf, follow_acct_set, acct):
     """Check over a followed account (dict) and optionally repair it."""
     full = cnf.api.account(acct) # full version of account object has 'moved'
     moved = full.get('moved')
     if moved:
-        print('Account %s has moved to %s' % (full.acct, moved.acct))
+        if moved.acct in follow_acct_set:
+            print("Account %s has moved to %s (but you're following that one too)"
+                  % (full.acct, moved.acct))
+        else:
+            print("Account %s has moved to %s"
+                  % (full.acct, moved.acct))
 
 def run(cnf):
-    for acct in get_all_following(cnf):
-        fsck_account(cnf, acct)
+    follow_accts = get_all_following(cnf)
+    follow_acct_set = set([x.acct for x in follow_accts])
+    for acct in follow_accts:
+        fsck_account(cnf, follow_acct_set, acct)
 
 def configure(args):
     """Given command line args, produce a Config object."""
