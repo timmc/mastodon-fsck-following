@@ -11,12 +11,18 @@ Desiderata:
 - Offer to unfollow old location of moved accounts
 
 Requirements:
-- `pip3 install Mastodon.py` - https://github.com/halcy/Mastodon.py
+- First time setup: Install requirements in virtualenv. Using Python 3.9
+  as example, though other 3.x versions should work too:
+  ```
+  python3.9 -m venv .venv39
+  source .venv39/bin/activate
+  pip install -r requirements.txt
+  ```
 - OAuth application registered in account. See Development tab in Mastodon
   settings to register one and get an access token with permissions as
   indicated below.
 
-Usage: `$0 <config-file>`
+Usage: `.venv39/bin/python -m mastodon-fsck-following <config-file>`
 
 Config file is JSON with the following keys:
 
